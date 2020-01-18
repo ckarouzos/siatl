@@ -18,6 +18,7 @@ from utils.early_stopping import EarlyStopping
 from utils.nlp import twitter_preprocessor
 from utils.training import load_checkpoint, f1_macro, acc
 from utils.transfer import dict_pattern_rename, load_state_dict_subset
+from utils.rmseloss import RMSELoss
 
 ####################################################################
 # SETTINGS
@@ -82,7 +83,8 @@ def sent_clf(dataset, config, opts, transfer=False):
     model = Classifier(ntokens, len(set(train_set.labels)), **config["model"])
     model.to(opts.device)
 
-    clf_criterion = nn.CrossEntropyLoss()
+    #clf_criterion = nn.CrossEntropyLoss()
+    clf_criterion = RMSELoss()
     lm_criterion = nn.CrossEntropyLoss(ignore_index=0)
 
     embed_parameters = filter(lambda p: p.requires_grad,
