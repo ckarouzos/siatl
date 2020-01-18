@@ -8,9 +8,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 
 from models.sent_clf import sent_clf
 from models.sent_clf_no_aux import sent_clf_no_aux
-from utils.data_parsing import load_dataset
 from utils.opts import train_options
 
+from semeval7.task71 import make_Xy 
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--input", required=False,
@@ -30,7 +30,8 @@ aux_loss = args.aux_loss
 
 opts, config = train_options(input_config, parser)
 
-dataset = load_dataset(config)
+#dataset = load_dataset(config)
+dataset = make_Xy()
 
 if aux_loss:
     loss, accuracy, f1 = sent_clf(dataset=dataset, config=config,
